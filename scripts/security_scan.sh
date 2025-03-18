@@ -19,6 +19,11 @@ if ! command -v sonar-scanner &> /dev/null; then
     export PATH="/usr/local/sonar-scanner-5.0.1.3006-linux/bin:$PATH"
 fi
 
+if ! command -v snyk &> /dev/null; then
+    echo "Installing Snyk for Software Composition Analysis (SCA)..."
+    npm install -g snyk
+fi
+
 echo "Running Secrets Scanning..."
 git-secrets --scan
 
@@ -28,6 +33,9 @@ sonar-scanner \
   -Dsonar.sources=. \
   -Dsonar.host.url=http://your-sonarqube-server:9000 \
   -Dsonar.login=your_sonarqube_token
+  
+echo "Running Software Composition Analysis (SCA) with Snyk..."
+snyk test --all-projects
 
 echo "Running Dynamic Application Security Testing (DAST) with OWASP ZAP..."
 docker run -v $(pwd):/zap/wrk -t owasp/zap2docker-stable zap-baseline.py -t http://your-app-url
