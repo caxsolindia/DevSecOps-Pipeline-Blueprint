@@ -75,7 +75,7 @@ The Infrastructure Pipeline ensures secure Infrastructure-as-Code (IaC) deployme
 │   ├── build_and_test.sh        # Builds the application and runs unit tests.
 │   ├── code_coverage.sh         # Runs JaCoCo (Java), pytest-cov (Python) and OpenCover (.NET).
 │   ├── container_scan.sh        # Runs Trivy for Docker image scanning
-│   ├── security_scan.sh         # Runs SAST, DAST, and Secrets Scanning
+│   ├── security_scan.sh         # Runs SAST, DAST, Snyk and Secrets Scanning
 │   ├── terraform_check.sh       # Runs Terraform security checks
 │   ├── trigger_pipeline.sh      # Triggers AWS CodePipeline
 
