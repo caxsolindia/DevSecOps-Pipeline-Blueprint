@@ -70,7 +70,7 @@ The Infrastructure Pipeline ensures secure Infrastructure-as-Code (IaC) deployme
 ## Folder Structure for Custom Scripts
 
 ```bash
-📦 devsecops-pipeline
+
 ├── 📂 scripts
 │   ├── build_and_test.sh        # Builds the application and runs unit tests.
 │   ├── code_coverage.sh         # Runs JaCoCo (Java), pytest-cov (Python) and OpenCover (.NET).
@@ -78,7 +78,9 @@ The Infrastructure Pipeline ensures secure Infrastructure-as-Code (IaC) deployme
 │   ├── security_scan.sh         # Runs SAST, DAST, Snyk and Secrets Scanning
 │   ├── terraform_check.sh       # Runs Terraform security checks
 │   ├── trigger_pipeline.sh      # Triggers AWS CodePipeline
-
+├── .github
+│   ├── workflows
+│   │   ├── security_pipeline.yml
 ```
 
 ## Key Integrations
