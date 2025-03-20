@@ -1,0 +1,58 @@
+name: Security and Build Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - staging
+  pull_request:
+    branches:
+      - main
+      - develop
+      - staging
+
+jobs:
+  security_scans:
+    name: Security & Compliance Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Build & Run Unit Tests
+        run: |
+          chmod +x scripts/build_and_test.sh
+          ./scripts/build_and_test.sh
+
+      - name: Run Code Coverage Analysis
+        run: |
+          chmod +x scripts/code_coverage.sh
+          ./scripts/code_coverage.sh
+
+      - name: 🛡 Run Security Scans (SAST, DAST, SCA, Secrets)
+        run: |
+          chmod +x scripts/security_scan.sh
+          ./scripts/security_scan.sh
+
+      - name: Run Container Security Scan (Trivy)
+        run: |
+          chmod +x scripts/container_scan.sh
+          ./scripts/container_scan.sh
+
+      - name: Run Infrastructure Security Checks (Terraform)
+        run: |
+          chmod +x scripts/terraform_check.sh
+          ./scripts/terraform_check.sh
+
+  deploy:
+    name: Deploy to AWS
+    runs-on: ubuntu-latest
+    needs: security_scans  # Only runs if security scans pass
+
+    steps:
+      - name: Trigger AWS CodePipeline
+        run: |
+          chmod +x scripts/trigger_pipeline.sh
+          ./scripts/trigger_pipeline.sh
